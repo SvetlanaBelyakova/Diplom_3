@@ -1,0 +1,5 @@
+pages\WebDriverConfigurator.class
+pages\Browser.class
+pages\RegistrationPage.class
+pages\ConstructorPage.class
+pages\LoginPage.class
