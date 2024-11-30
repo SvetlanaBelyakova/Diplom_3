@@ -1,5 +1,7 @@
 D:\Users\Евгения\Diplom_3\src\main\java\pages\Browser.java
+D:\Users\Евгения\Diplom_3\src\main\java\pages\BrowserType.java
+D:\Users\Евгения\Diplom_3\src\main\java\pages\Constants.java
 D:\Users\Евгения\Diplom_3\src\main\java\pages\ConstructorPage.java
 D:\Users\Евгения\Diplom_3\src\main\java\pages\LoginPage.java
 D:\Users\Евгения\Diplom_3\src\main\java\pages\RegistrationPage.java
-D:\Users\Евгения\Diplom_3\src\main\java\pages\WebDriverConfigurator.java
+D:\Users\Евгения\Diplom_3\src\main\java\pages\UserService.java

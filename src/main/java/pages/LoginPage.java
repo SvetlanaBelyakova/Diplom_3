@@ -6,26 +6,26 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // Локатор кнопки "Войти в аккаунт"
-    @FindBy(xpath = "//button[contains(text(),'Войти в аккаунт')]")
+    @FindBy(xpath = "//button[text()='Войти в аккаунт']")
     private WebElement loginButton;
 
     // Локатор кнопки регистрации
-    @FindBy(xpath = "//*[@id='root']/div/main/div/div/p[1]/a")
+    @FindBy(xpath = "//a[@href='/register']")
     private WebElement registrationButton;
 
     // Локатор кнопки "Личный Кабинет"
-    @FindBy(xpath = "//*[@id='root']/div/header/nav/a/p")
+    @FindBy(xpath = "//nav//a[@href='/account']")
     private WebElement personalAccountButton;
 
     // Локатор кнопки "Войти" в форме регистрации
-    @FindBy(xpath = "//a[text()='Войти']")
+    @FindBy(xpath = "//a[@href='/login']")
     private WebElement registrationLoginButton;
 
     // Локатор поля ввода email
-    @FindBy(xpath = "//*[@id='root']/div/main/div/form/fieldset[1]/div/div/input")
+    @FindBy(xpath = "//input[@type='email']")
     private WebElement emailField;
 
     // Локатор поля ввода пароля
@@ -33,23 +33,23 @@ public class LoginPage {
     private WebElement passwordField;
 
     // Локатор поля ввода пароля в форме восстановления пароля
-    @FindBy(xpath = "//*[@id='root']/div/main/div/form/fieldset/div/div/input")
+    @FindBy(xpath = "//input[@name='recovery-password']")
     private WebElement passwordRecoveryField;
 
     // Локатор кнопки "Восстановить пароль"
-    @FindBy(xpath = "//*[@id='root']/div/main/div/div/p[2]/a")
+    @FindBy(xpath = "//a[@href='/recover']")
     private WebElement recoverPasswordButton;
 
     // Локатор кнопки "Войти" в различных формах
-    @FindBy(xpath = "//button[text()='Войти']")
+    @FindBy(xpath = "//button[@type='submit']")
     private WebElement loginSubmitButton;
 
     // Локатор кнопки "Войти" в форме восстановления пароля
-    @FindBy(xpath = "//*[@id='root']/div/main/div/div/p/a")
+    @FindBy(xpath = "//button[@type='submit' and @name='recovery-login']")
     private WebElement recoveryLoginSubmitButton;
 
     // Локатор кнопки "Конструктор"
-    @FindBy(xpath = "//*[@id='root']/div/header/nav/ul/li[1]/a/p")
+    @FindBy(xpath = "//nav//ul//li[1]//a")
     private WebElement builderButton;
 
     // Локатор кнопки "Выйти"
@@ -57,7 +57,7 @@ public class LoginPage {
     private WebElement logoutButton;
 
     // Локатор логотипа Stellar Burgers
-    @FindBy(xpath = "//*[@id='root']/div/header/nav/div")
+    @FindBy(xpath = "//nav//div[contains(@class, 'logo')]")
     private WebElement stellarBurgersLogo;
 
     // Конструктор
@@ -99,15 +99,7 @@ public class LoginPage {
         recoveryLoginSubmitButton.click();
     }
 
-    public void openBuilder() {
-        builderButton.click();
-    }
-
     public void logout() {
         logoutButton.click();
-    }
-
-    public void clickOnStellarBurgersLogo() {
-        stellarBurgersLogo.click();
     }
 }

@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class ConstructorPage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // Локатор для раздела "Булки"
     @FindBy(xpath = "//span[text()='Булки']")
@@ -21,15 +21,15 @@ public class ConstructorPage {
     private WebElement fillingsSection;
 
     // Локатор заголовка активного раздела "Соусы"
-    @FindBy(xpath = "//*[@id='root']/div/main/section[1]/div[2]/h2[2]")
+    @FindBy(xpath = "(//h2)[2]") // Предполагается, что заголовки идут по порядку
     private WebElement activeSaucesHeader;
 
     // Локатор заголовка активного раздела "Начинки"
-    @FindBy(xpath = "//*[@id='root']/div/main/section[1]/div[2]/h2[3]")
+    @FindBy(xpath = "(//h2)[3]") // Предполагается, что заголовки идут по порядку
     private WebElement activeFillingsHeader;
 
     // Локатор заголовка активного раздела "Булки"
-    @FindBy(xpath = "//*[@id='root']/div/main/section[1]/div[2]/h2[1]")
+    @FindBy(xpath = "(//h2)[1]") // Предполагается, что заголовки идут по порядку
     private WebElement activeBunsHeader;
 
     // Конструктор

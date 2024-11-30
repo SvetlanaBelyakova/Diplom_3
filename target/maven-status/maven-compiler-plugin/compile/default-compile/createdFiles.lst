@@ -1,5 +1,9 @@
-pages\WebDriverConfigurator.class
 pages\Browser.class
-pages\RegistrationPage.class
-pages\ConstructorPage.class
+pages\UserService.class
 pages\LoginPage.class
+pages\BrowserType$1.class
+pages\RegistrationPage.class
+pages\Constants.class
+pages\ConstructorPage.class
+pages\BrowserType.class
+pages\BrowserType$2.class

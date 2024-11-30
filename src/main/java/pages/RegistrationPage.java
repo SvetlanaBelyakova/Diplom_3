@@ -6,19 +6,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
 
 public class RegistrationPage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // Локатор кнопки "Войти в аккаунт"
-    @FindBy(xpath = "//button[contains(text(),'Войти в аккаунт')]")
+    @FindBy(xpath = "//button[text()='Войти в аккаунт']")
     private WebElement loginButton;
 
     // Локатор кнопки регистрации
-    @FindBy(xpath = "//*[@id='root']/div/main/div/div/p[1]/a")
+    @FindBy(xpath = "//p/a[@href='/register']")
     private WebElement registerButton;
 
     // Локатор поля ввода имени
@@ -26,19 +23,19 @@ public class RegistrationPage {
     private WebElement nameField;
 
     // Локатор поля ввода email
-    @FindBy(xpath = "//*[@id='root']/div/main/div/form/fieldset[2]/div/div/input")
+    @FindBy(xpath = "//input[@type='email']")
     private WebElement emailField;
 
     // Локатор поля ввода пароля
-    @FindBy(xpath = "//*[@id='root']/div/main/div/form/fieldset[3]/div/div/input")
+    @FindBy(xpath = "//input[@type='password']")
     private WebElement passwordField;
 
     // Локатор кнопки "Зарегистрироваться"
-    @FindBy(xpath = "//*[@id='root']/div/main/div/form/button")
+    @FindBy(xpath = "//button[@type='submit']")
     private WebElement registerButtonClick;
 
     // Локатор сообщения об ошибке пароля
-    @FindBy(xpath = "//*[@id='root']/div/main/div/form/fieldset[3]/div/p")
+    @FindBy(xpath = "//fieldset[3]//div//p")
     private WebElement passwordErrorMessage;
 
     // Конструктор
@@ -47,27 +44,9 @@ public class RegistrationPage {
         PageFactory.initElements(driver, this);
     }
 
-    // Ожидание появления поля ввода имени
-    public void waitForNameField() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(nameField));
-    }
-
-    // Ожидание появления поля ввода email
-    public void waitForEmailField() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(emailField));
-    }
-
-    // Ожидание появления поля ввода пароля
-    public void waitForPasswordField() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(passwordField));
-    }
-
     // Прокрутка к кнопке регистрации
     public void scrollToRegisterLink() {
-        WebElement registerLink = driver.findElement(By.xpath("//*[@id='root']/div/main/div/div/p[1]/a"));
+        WebElement registerLink = driver.findElement(By.xpath("//p/a[@href='/register']"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", registerLink);
     }
 

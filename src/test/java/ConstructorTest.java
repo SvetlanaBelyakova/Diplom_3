@@ -6,14 +6,14 @@ import org.junit.runners.Parameterized;
 import pages.Browser;
 
 import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class ConstructorTest extends BaseTest {
-
     @Parameterized.Parameters
     public static Collection<Object[]> parameters() {
-        return Browser.getBrowserData(); // Получение параметров из внешнего класса
+        return Browser.getBrowserData();
     }
 
     public ConstructorTest(String selectedBrowser) {
@@ -37,7 +37,6 @@ public class ConstructorTest extends BaseTest {
     @Test
     @Description("Проверка перехода в раздел 'Булки'")
     public void selectBunsSection() {
-        constructorPage.selectSaucesSection();
         constructorPage.selectBunsSection();
         assertEquals("Булки", constructorPage.retrieveBunsHeaderText());
     }

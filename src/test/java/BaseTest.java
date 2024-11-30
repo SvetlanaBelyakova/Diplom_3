@@ -1,20 +1,15 @@
 
-import org.openqa.selenium.WebDriver;
 import io.qameta.allure.Step;
 import org.junit.After;
 import org.junit.Before;
-import pages.ConstructorPage;
-import pages.LoginPage;
-import pages.RegistrationPage;
-import pages.WebDriverConfigurator;
-import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.WebDriver;
+import pages.*;
 
 public abstract class BaseTest {
     protected WebDriver driver;
     protected RegistrationPage registrationPage;
     protected LoginPage loginPage;
     protected ConstructorPage constructorPage;
-    protected final String BASE_URL = "https://stellarburgers.nomoreparties.site/";
     protected final String browser;
 
     public BaseTest(String browser) {
@@ -24,20 +19,26 @@ public abstract class BaseTest {
     @Step("Инициализация WebDriver")
     @Before
     public void setUp() {
-        driver = WebDriverConfigurator.initializeDriver(browser);
-        driver.get(BASE_URL);
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        driver = BrowserType.valueOf(browser.toUpperCase()).createDriver();
+        driver.get(Constants.BASE_URL);
         registrationPage = new RegistrationPage(driver);
         loginPage = new LoginPage(driver);
         constructorPage = new ConstructorPage(driver);
-        System.out.println("Тест выполняется в браузере: " + browser);
     }
 
-    @Step("Закрытие WebDriver")
+    @Step("Закрытие WebDriver и удаление пользователя")
     @After
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
+        try {
+            // Удаление пользователя после теста
+            UserService.deleteUser (Constants.TEST_USER_EMAIL);
+        } catch (Exception e) {
+            // Логирование ошибки при удалении пользователя
+            System.err.println("Ошибка при удалении пользователя: " + e.getMessage());
+        } finally {
+            if (driver != null) {
+                driver.quit(); // Закрытие WebDriver
+            }
         }
     }
 }
