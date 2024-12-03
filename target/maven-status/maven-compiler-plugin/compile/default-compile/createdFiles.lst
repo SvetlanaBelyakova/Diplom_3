@@ -1,0 +1,11 @@
+user\UserHttps.class
+pages\PasswordPage.class
+pages\LoginPage.class
+settings\Constants.class
+pages\RegistrationPage.class
+user\UserResponse.class
+user\UserApi.class
+pages\ProfilePage.class
+user\User.class
+pages\MainPage.class
+settings\WebDriverCreator.class
