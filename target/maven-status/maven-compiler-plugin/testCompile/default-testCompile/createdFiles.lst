@@ -1,7 +1,4 @@
-AccountConstructorTest.class
-RegistrationTest.class
-LogoutTest.class
-AccountTest.class
-ConstructorTest.class
-LoginTest.class
-BaseTest.class
+test\LoginPageTest.class
+test\MainPageTest.class
+test\ProfilePageTest.class
+test\RegistrationPageTest.class

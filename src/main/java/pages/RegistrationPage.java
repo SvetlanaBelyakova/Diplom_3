@@ -1,85 +1,70 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class RegistrationPage {
-    private final WebDriver driver;
 
-    // Локатор кнопки "Войти в аккаунт"
-    @FindBy(xpath = "//button[text()='Войти в аккаунт']")
-    private WebElement loginButton;
+    private final WebDriver webDriver;
+    private final By inputsField = By.xpath("//form[contains(@class, 'Auth_form')]//input");
+    private final By registerButton = By.xpath("//form[contains(@class, 'Auth_form')]//button");
+    private final By errorMessage = By.xpath("//form[contains(@class, 'Auth_form')]//p[contains(@class,'input__error')]");
+    private final By title = By.xpath("//main//h2");
+    private final By authLink = By.xpath("//a[contains(@class,'Auth_link')]");
+    private final By modalOverlay = By.xpath("//div[contains(@class, 'Modal_modal')]");
 
-    // Локатор кнопки регистрации
-    @FindBy(xpath = "//p/a[@href='/register']")
-    private WebElement registerButton;
-
-    // Локатор поля ввода имени
-    @FindBy(xpath = "//input[@name='name']")
-    private WebElement nameField;
-
-    // Локатор поля ввода email
-    @FindBy(xpath = "//input[@type='email']")
-    private WebElement emailField;
-
-    // Локатор поля ввода пароля
-    @FindBy(xpath = "//input[@type='password']")
-    private WebElement passwordField;
-
-    // Локатор кнопки "Зарегистрироваться"
-    @FindBy(xpath = "//button[@type='submit']")
-    private WebElement registerButtonClick;
-
-    // Локатор сообщения об ошибке пароля
-    @FindBy(xpath = "//fieldset[3]//div//p")
-    private WebElement passwordErrorMessage;
-
-    // Конструктор
-    public RegistrationPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+    public RegistrationPage(WebDriver webDriver) {
+        this.webDriver = webDriver;
     }
 
-    // Прокрутка к кнопке регистрации
-    public void scrollToRegisterLink() {
-        WebElement registerLink = driver.findElement(By.xpath("//p/a[@href='/register']"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", registerLink);
+    @Step("Ввод значения в поле 'Имя'")
+    public void setName(String name) {
+        webDriver.findElements(inputsField).get(0).sendKeys(name);
     }
 
-    // Методы для взаимодействия с элементами
-    public void clickLoginButton() {
-        loginButton.click();
+    @Step("Ввод значения в поле 'Email'")
+    public void setEmail(String email) {
+        webDriver.findElements(inputsField).get(1).sendKeys(email);
     }
 
-    public void clickRegisterLink() {
-        registerButton.click();
+    @Step("Ввод значения в поле 'Пароль'")
+    public void setPassword(String password) {
+        webDriver.findElements(inputsField).get(2).sendKeys(password);
     }
 
-    public void inputName(String name) {
-        nameField.sendKeys(name);
-    }
-
-    public void inputEmail(String email) {
-        emailField.sendKeys(email);
-    }
-
-    public void inputPassword(String password) {
-        passwordField.sendKeys(password);
-    }
-
+    @Step("Клик по кнопке регистрации")
     public void clickRegisterButton() {
-        registerButtonClick.click();
+        waitButtonIsClickable();
+        webDriver.findElement(registerButton).click();
     }
 
-    public boolean isPasswordErrorVisible() {
-        return passwordErrorMessage.isDisplayed();
+    private void waitButtonIsClickable() {
+        new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOf(webDriver.findElement(modalOverlay)));
     }
 
-    public String getPasswordErrorMessage() {
-        return passwordErrorMessage.getText();
+    public void waitFormSubmitted(String expectedTitle) {
+        new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.textToBe(title, expectedTitle));
+    }
+
+    public void waitErrorIsVisible() {
+        new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOf(webDriver.findElement(errorMessage)));
+    }
+
+    public String getErrorMessage() {
+        return webDriver.findElement(errorMessage).getText();
+    }
+
+    public void clickAuthLink() {
+        waitButtonIsClickable();
+        webDriver.findElement(authLink).click();
     }
 }
+

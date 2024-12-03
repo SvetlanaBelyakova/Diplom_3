@@ -1,105 +1,60 @@
 package pages;
 
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LoginPage {
-    private final WebDriver driver;
+    private final WebDriver webDriver;
 
-    // Локатор кнопки "Войти в аккаунт"
-    @FindBy(xpath = "//button[text()='Войти в аккаунт']")
-    private WebElement loginButton;
+    // Упрощенные XPath-локаторы
+    private final By inputsField = By.xpath(".//form[starts-with(@class, 'Auth_form')]//fieldset//div[@class='input__container']//input");
+    private final By authButton = By.xpath(".//form[starts-with(@class, 'Auth_form')]/button");
+    private final By title = By.xpath(".//main//h2");
+    private final By modalOverlay = By.xpath(".//div[starts-with(@class, 'App_App')]/div/div[starts-with(@class, 'Modal_modal_overlay')]");
+    private final By header = By.tagName("h1");
 
-    // Локатор кнопки регистрации
-    @FindBy(xpath = "//a[@href='/register']")
-    private WebElement registrationButton;
-
-    // Локатор кнопки "Личный Кабинет"
-    @FindBy(xpath = "//nav//a[@href='/account']")
-    private WebElement personalAccountButton;
-
-    // Локатор кнопки "Войти" в форме регистрации
-    @FindBy(xpath = "//a[@href='/login']")
-    private WebElement registrationLoginButton;
-
-    // Локатор поля ввода email
-    @FindBy(xpath = "//input[@type='email']")
-    private WebElement emailField;
-
-    // Локатор поля ввода пароля
-    @FindBy(xpath = "//input[@type='password']")
-    private WebElement passwordField;
-
-    // Локатор поля ввода пароля в форме восстановления пароля
-    @FindBy(xpath = "//input[@name='recovery-password']")
-    private WebElement passwordRecoveryField;
-
-    // Локатор кнопки "Восстановить пароль"
-    @FindBy(xpath = "//a[@href='/recover']")
-    private WebElement recoverPasswordButton;
-
-    // Локатор кнопки "Войти" в различных формах
-    @FindBy(xpath = "//button[@type='submit']")
-    private WebElement loginSubmitButton;
-
-    // Локатор кнопки "Войти" в форме восстановления пароля
-    @FindBy(xpath = "//button[@type='submit' and @name='recovery-login']")
-    private WebElement recoveryLoginSubmitButton;
-
-    // Локатор кнопки "Конструктор"
-    @FindBy(xpath = "//nav//ul//li[1]//a")
-    private WebElement builderButton;
-
-    // Локатор кнопки "Выйти"
-    @FindBy(xpath = "//button[text()='Выход']")
-    private WebElement logoutButton;
-
-    // Локатор логотипа Stellar Burgers
-    @FindBy(xpath = "//nav//div[contains(@class, 'logo')]")
-    private WebElement stellarBurgersLogo;
-
-    // Конструктор
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+    public LoginPage(WebDriver webDriver) {
+        this.webDriver = webDriver;
     }
 
-    // Методы для взаимодействия с элементами
-    public void clickLoginSubmit() {
-        loginSubmitButton.click();
+    @Step("Ввод значения в поле 'Email'")
+    public void setEmail(String email) {
+        webDriver.findElements(inputsField).get(0).sendKeys(email);
     }
 
-    public void openPersonalAccount() {
-        personalAccountButton.click();
+    @Step("Ввод значения в поле 'Пароль'")
+    public void setPassword(String password) {
+        webDriver.findElements(inputsField).get(1).sendKeys(password);
     }
 
-    public void openRegistrationLogin() {
-        registrationLoginButton.click();
+    @Step("Нажатие на кнопку авторизации")
+    public void clickAuthButton() {
+        waitButtonIsClickable();
+        waitForElementToBeVisible(authButton); // Ожидание видимости кнопки
+        webDriver.findElement(authButton).click();
+    }
+    private void waitForElementToBeVisible(By locator) {
+        new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+    private void waitButtonIsClickable() {
+        new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOfElementLocated(modalOverlay));
     }
 
-    public void clickRecoverPassword() {
-        recoverPasswordButton.click();
+    public void waitFormSubmitted() {
+        new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(header));
     }
 
-    public void inputEmail(String email) {
-        emailField.sendKeys(email);
-    }
-
-    public void inputPassword(String password) {
-        passwordField.sendKeys(password);
-    }
-
-    public void inputRecoveryPassword(String password) {
-        passwordRecoveryField.sendKeys(password);
-    }
-
-    public void clickRecoveryLoginSubmit() {
-        recoveryLoginSubmitButton.click();
-    }
-
-    public void logout() {
-        logoutButton.click();
+    public void waitAuthFormVisible() {
+        new WebDriverWait(webDriver, Duration.ofSeconds(30))
+                .until(ExpectedConditions.textToBe(title, "Вход"));
     }
 }
+
